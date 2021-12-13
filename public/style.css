@@ -89,3 +89,26 @@ h4 {
   font-family: "Montserrat";
   font-size: 40px;
 }
+/* mobile */
+@media (max-width: 600px) {
+  .navbar {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+  }
+  .navbar ul {
+    width: 150px;
+  }
+  h4 {
+    font-size: 12px;
+  }
+  .table {
+    font-size: 10px;
+  }
+  .row h1 {
+    font-size: 20px;
+  }
+  .row p {
+    font-size: 10px;
+  }
+}
