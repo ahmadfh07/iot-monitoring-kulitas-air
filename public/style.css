@@ -1,0 +1,91 @@
+body {
+  background-color: #f3f3f3;
+}
+
+:root {
+  --main-color: rgb(194, 10, 10);
+}
+
+.navbar {
+  padding-left: 50px;
+  padding-right: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  font-family: "Kanit", sans-serif;
+  transition: all 250ms;
+}
+.sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: #c9c8c8;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+.navbar a span {
+  color: var(--main-color);
+  font-size: 40px;
+}
+.navbar ul li a {
+  position: relative;
+}
+.navbar ul {
+  padding-top: 10px;
+  display: flex;
+  width: 200px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navbar ul li {
+  list-style: none;
+}
+
+.navbar ul li a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--main-color);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.navbar ul li a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+#active::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(1);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--main-color);
+  transform-origin: bottom right;
+}
+
+h4 {
+  font-family: "Montserrat";
+  font-weight: bold;
+}
+.table {
+  font-family: "Montserrat";
+}
+.row h1 {
+  font-family: "Montserrat";
+  font-size: 40px;
+}
