@@ -19,8 +19,8 @@
     <% } %> <% datas.forEach((data,i) => { %>
     <tr>
       <th scope="row"><%= i + 1 %></th>
-      <td><%= data.date.toLocaleDateString() %></td>
-      <td><%= data.time.toLocaleTimeString() %></td>
+      <td><%= data.createdAt.toLocaleDateString() %></td>
+      <td><%= data.createdAt.toLocaleTimeString() %></td>
       <td><%=data.tds%></td>
       <td>Tes</td>
     </tr>
