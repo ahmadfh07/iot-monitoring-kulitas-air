@@ -2,8 +2,6 @@ require("./utils/db");
 const Data = require("./models/data");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const timeout = require("connect-timeout");
 
 const app = express();
@@ -14,10 +12,6 @@ app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(timeout("5s"));
-app.use(bodyParser());
-app.use(haltOnTimedout);
-app.use(cookieParser());
-app.use(haltOnTimedout);
 
 app.get("/", async (req, res) => {
   const datas = await Data.find();
