@@ -1,29 +1,75 @@
 <h4>Tabel Pemantau Kondisi Air</h4>
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">NO</th>
-      <th scope="col">Tanggal</th>
-      <th scope="col">Waktu</th>
-      <th scope="col">Kualitas Air</th>
-      <th scope="col">Indikator warna</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if (datas.length === 0) { %>
-    <tr>
-      <td colspan="5">
-        <div class="alert alert-danger fw-bold text-center" role="alert">Data masih kosong.</div>
-      </td>
-    </tr>
-    <% } %> <% datas.forEach((data,i) => { %>
-    <tr>
-      <th scope="row"><%= i + 1 %></th>
-      <td><%= data.createdAt.toLocaleDateString() %></td>
-      <td><%= data.createdAt.toLocaleTimeString() %></td>
-      <td><%=data.tds%></td>
-      <td>Tes</td>
-    </tr>
-    <% }) %>
-  </tbody>
-</table>
+<i id="myBtn" class="bi bi-funnel-fill"></i>
+<div style="overflow-x: auto; margin-top: -15px; scrollbar-color: var(--main-color)">
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>NO</th>
+        <th>Tanggal</th>
+        <th>Waktu</th>
+        <th>TDS</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (datas.length === 0) { %>
+      <tr>
+        <td colspan="5">
+          <div class="alert alert-danger fw-bold text-center" role="alert">Data masih kosong.</div>
+        </td>
+      </tr>
+      <% } %> <% datas.forEach((data,i) => { %>
+      <tr>
+        <th><%= i + 1 %></th>
+        <td><%= data.createdAt.toLocaleDateString() %></td>
+        <td><%= data.createdAt.toLocaleTimeString() %></td>
+        <td><%=data.tds%> ppm</td>
+        <td>
+          <img
+            src="img/<% if (data.tds > 500) { %>danger.png
+        <% } else { %>safe.png<% } %>"
+            alt="status"
+          />
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<nav aria-label="Page navigation example">
+  <% if (datas.length !== 0) { %> <% if (pages > 0) { %>
+  <ul class="pagination">
+    <% if (current == 1) { %>
+    <li class="item no-click"><a class="link">First</a></li>
+    <% } else { %>
+    <li><a class="link" href="/?page=1">First</a></li>
+    <% } %> <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %> <% if (i !== 1) { %>
+    <li class="item no-click"><a>...</a></li>
+    <% } %> <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %> <% if (i == current) { %>
+    <li class="item current"><a class="link"><%= i %></a></li>
+    <% } else { %>
+    <li><a class="link" href="/?page=<%= i %>"><%= i %></a></li>
+    <% } %> <% if (i == Number(current) + 4 && i < pages) { %>
+    <li class="item no-click"><a>...</a></li>
+    <% } %> <% } %> <% if (current == pages) { %>
+    <li class="item no-click"><a class="link">Last</a></li>
+    <% } else { %>
+    <li><a class="link" href="/?page=<%= pages %>">Last</a></li>
+    <% } %>
+  </ul>
+  <% } %> <% } %>
+</nav>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <ul>
+      <li><a href="/filter/?by=">TDS : highest to lowest</a></li>
+      <li><a href="/filter/?by=">TDS : lowest to highest</a></li>
+      <li><a href="/filter/?by=">Status : red only</a></li>
+      <li><a href="/filter/?by=">Status : green only</a></li>
+      <li><a href="/filter/?by=">Date between</a></li>
+    </ul>
+  </div>
+</div>

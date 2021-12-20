@@ -4,6 +4,8 @@ body {
 
 :root {
   --main-color: rgb(194, 10, 10);
+  --second-color: #c9c8c8;
+  --third-color: #f2f2f2;
 }
 
 .navbar {
@@ -21,7 +23,7 @@ body {
   transition: all 250ms;
 }
 .sticky {
-  background-color: #c9c8c8;
+  background-color: var(--second-color);
 }
 
 .navbar a {
@@ -78,19 +80,139 @@ body {
   transform-origin: bottom right;
 }
 .mt-10 {
-  margin-top: 150px;
+  margin-top: 90px;
 }
 h4 {
+  font-size: 18px;
   font-family: "Montserrat";
   font-weight: bold;
 }
-.table {
+
+.styled-table {
   font-family: "Montserrat";
+  /* border-collapse: collapse; */
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: var(--second-color);
+  color: black;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #fcfcfc;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid var(--third-color);
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table td img {
+  width: 15px;
 }
 .row h1 {
   font-family: "Montserrat";
   font-size: 40px;
 }
+
+nav:nth-child(4) ul li {
+  padding: 5px;
+  background-color: var(--second-color);
+  margin: 2px;
+  transition: all ease-in-out 250ms;
+  border-radius: 10%;
+}
+
+nav:nth-child(4) ul li:hover:not(.no-click) {
+  background-color: var(--main-color);
+}
+nav:nth-child(4) ul li:hover:not(.no-click) a {
+  color: white;
+}
+
+nav:nth-child(4) ul li a {
+  padding: 5px;
+  text-decoration: none;
+  color: black;
+  font-family: "Kanit", sans-serif;
+  transition: all ease-in-out 250ms;
+}
+
+nav:nth-child(4) ul .current {
+  background-color: var(--main-color);
+}
+
+nav:nth-child(4) ul .current a {
+  color: white;
+}
+nav:nth-child(4) ul .no-click {
+  cursor: not-allowed;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+.bi {
+  color: var(--main-color);
+  cursor: pointer;
+}
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+.modal-content ul li {
+  list-style: none;
+  text-align: center;
+}
+
+.modal-content ul li a {
+  text-decoration: none;
+  color: black;
+  font-family: "Montserrat";
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* mobile */
 @media (max-width: 600px) {
   .navbar {
@@ -104,13 +226,29 @@ h4 {
   h4 {
     font-size: 12px;
   }
-  .table {
+  .styled-table {
     font-size: 10px;
+  }
+  .styled-table td img {
+    width: 10px;
   }
   .row h1 {
     font-size: 20px;
   }
   .row p {
     font-size: 10px;
+  }
+  nav:nth-child(4) ul li {
+    padding: 2px;
+    margin: 2px;
+    height: 30px;
+  }
+
+  nav:nth-child(4) ul li a {
+    padding: 2px;
+    font-size: 10px;
+  }
+  .modal-content {
+    width: 80%;
   }
 }

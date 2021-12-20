@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dataSchema = mongoose.Schema(
   {
     tds: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
