@@ -188,15 +188,23 @@ nav:nth-child(4) ul .no-click {
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */
 }
-.modal-content ul li {
-  list-style: none;
-  text-align: center;
+.popover-header {
+  font-family: "Montserrat", sans-serif;
 }
-
-.modal-content ul li a {
+.popover-body {
+  padding: 0;
+}
+.popover-body a {
+  padding: 5px;
+  background-color: white;
   text-decoration: none;
   color: black;
-  font-family: "Montserrat";
+  display: block;
+  font-family: "Montserrat", sans-serif;
+}
+
+.popover-body a:hover {
+  background-color: var(--second-color);
 }
 /* The Close Button */
 .close {

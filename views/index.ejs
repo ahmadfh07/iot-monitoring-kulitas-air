@@ -1,5 +1,5 @@
 <h4>Tabel Pemantau Kondisi Air</h4>
-<i id="myBtn" class="bi bi-funnel-fill"></i>
+<i class="bi bi-funnel-fill" data-bs-toggle="popover" data-bs-content-id="popover-content" title="Clcick again to close"></i>
 <div style="overflow-x: auto; margin-top: -15px; scrollbar-color: var(--main-color)">
   <table class="styled-table">
     <thead>
@@ -7,8 +7,8 @@
         <th>NO</th>
         <th>Tanggal</th>
         <th>Waktu</th>
-        <th>TDS</th>
-        <th>Status</th>
+        <th><span data-bs-toggle="tooltip" data-bs-placement="top" title="Tota Dissolved Solid">TDS</span></th>
+        <th><span data-bs-toggle="tooltip" data-bs-placement="top" title="Status kualitas air, merah : buruk | hijau : aman">Status</span></th>
       </tr>
     </thead>
     <tbody>
@@ -59,17 +59,19 @@
   </ul>
   <% } %> <% } %>
 </nav>
+
 <!-- The Modal -->
 <div id="myModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
     <span class="close">&times;</span>
-    <ul>
-      <li><a href="/filter/?by=">TDS : highest to lowest</a></li>
-      <li><a href="/filter/?by=">TDS : lowest to highest</a></li>
-      <li><a href="/filter/?by=">Status : red only</a></li>
-      <li><a href="/filter/?by=">Status : green only</a></li>
-      <li><a href="/filter/?by=">Date between</a></li>
-    </ul>
   </div>
+</div>
+<!-- popover -->
+<div id="popover-content" class="d-none">
+  <a href="/filter/?by=">TDS : highest to lowest</a>
+  <a href="/filter/?by=">TDS : lowest to highest</a>
+  <a href="/filter/?by=">Status : red only</a>
+  <a href="/filter/?by=">Status : green only</a>
+  <a href="#" class="myBtn">Date between</a>
 </div>
