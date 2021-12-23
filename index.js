@@ -11,7 +11,7 @@ const port = 3000;
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(timeout("5s"));
 
 app.get("/", async (req, res, next) => {
@@ -63,6 +63,161 @@ app.get("/about", (req, res) => {
     title: "About",
     layout: "layouts/main-layout",
   });
+});
+
+app.get("/tdsdown", async (req, res) => {
+  const perPage = 10;
+  const datas = await Data.find();
+  if (datas.length !== 0) {
+    const numOfResults = await Data.countDocuments();
+    const numberOfPages = Math.ceil(numOfResults / perPage);
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page > numberOfPages) {
+      res.redirect("/tdsup?page=" + encodeURIComponent(numberOfPages));
+    } else if (page < 1) {
+      res.redirect("/tdsup?page=" + encodeURIComponent("1"));
+    }
+
+    Data.find({})
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .sort({ tds: -1 })
+      .exec((err, datas) => {
+        Data.countDocuments().exec((err, count) => {
+          if (err) return next(err);
+          res.render("index", {
+            title: "Home",
+            layout: "layouts/main-layout",
+            datas,
+            current: page,
+            pages: Math.ceil(count / perPage),
+            option: 1,
+          });
+        });
+      });
+  } else {
+    res.render("index", {
+      title: "Home",
+      layout: "layouts/main-layout",
+      datas,
+    });
+  }
+});
+
+app.get("/tdsup", async (req, res) => {
+  const perPage = 10;
+  const datas = await Data.find();
+  if (datas.length !== 0) {
+    const numOfResults = await Data.countDocuments();
+    const numberOfPages = Math.ceil(numOfResults / perPage);
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page > numberOfPages) {
+      res.redirect("/tdsup?page=" + encodeURIComponent(numberOfPages));
+    } else if (page < 1) {
+      res.redirect("/tdsup?page=" + encodeURIComponent("1"));
+    }
+
+    Data.find({})
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .sort({ tds: 1 })
+      .exec((err, datas) => {
+        Data.countDocuments().exec((err, count) => {
+          if (err) return next(err);
+          res.render("index", {
+            title: "Home",
+            layout: "layouts/main-layout",
+            datas,
+            current: page,
+            pages: Math.ceil(count / perPage),
+            option: 2,
+          });
+        });
+      });
+  } else {
+    res.render("index", {
+      title: "Home",
+      layout: "layouts/main-layout",
+      datas,
+    });
+  }
+});
+
+app.get("/redonly", async (req, res) => {
+  const perPage = 10;
+  const datas = await Data.find();
+  if (datas.length !== 0) {
+    const numOfResults = await Data.countDocuments();
+    const numberOfPages = Math.ceil(numOfResults / perPage);
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page > numberOfPages) {
+      res.redirect("/tdsup?page=" + encodeURIComponent(numberOfPages));
+    } else if (page < 1) {
+      res.redirect("/tdsup?page=" + encodeURIComponent("1"));
+    }
+
+    Data.find({ tds: { $gt: 500 } })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .sort({ tds: 1 })
+      .exec((err, datas) => {
+        Data.countDocuments().exec((err, count) => {
+          if (err) return next(err);
+          res.render("index", {
+            title: "Home",
+            layout: "layouts/main-layout",
+            datas,
+            current: page,
+            pages: Math.ceil(count / perPage),
+            option: 3,
+          });
+        });
+      });
+  } else {
+    res.render("index", {
+      title: "Home",
+      layout: "layouts/main-layout",
+      datas,
+    });
+  }
+});
+app.get("/greenonly", async (req, res) => {
+  const perPage = 10;
+  const datas = await Data.find();
+  if (datas.length !== 0) {
+    const numOfResults = await Data.countDocuments();
+    const numberOfPages = Math.ceil(numOfResults / perPage);
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page > numberOfPages) {
+      res.redirect("/tdsup?page=" + encodeURIComponent(numberOfPages));
+    } else if (page < 1) {
+      res.redirect("/tdsup?page=" + encodeURIComponent("1"));
+    }
+
+    Data.find({ tds: { $lte: 500 } })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .sort({ tds: -1 })
+      .exec((err, datas) => {
+        Data.countDocuments().exec((err, count) => {
+          if (err) return next(err);
+          res.render("index", {
+            title: "Home",
+            layout: "layouts/main-layout",
+            datas,
+            current: page,
+            pages: Math.ceil(count / perPage),
+            option: 4,
+          });
+        });
+      });
+  } else {
+    res.render("index", {
+      title: "Home",
+      layout: "layouts/main-layout",
+      datas,
+    });
+  }
 });
 
 app.use((req, res) => {

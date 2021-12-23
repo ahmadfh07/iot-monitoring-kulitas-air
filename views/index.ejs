@@ -1,5 +1,5 @@
 <h4>Tabel Pemantau Kondisi Air</h4>
-<i class="bi bi-funnel-fill" data-bs-toggle="popover" data-bs-content-id="popover-content" title="Clcick again to close"></i>
+<i class="bi bi-funnel-fill" data-bs-toggle="popover" data-bs-content-id="popover-content" title="Click again to dismiss"></i>
 <div style="overflow-x: auto; margin-top: -15px; scrollbar-color: var(--main-color)">
   <table class="styled-table">
     <thead>
@@ -69,9 +69,18 @@
 </div>
 <!-- popover -->
 <div id="popover-content" class="d-none">
-  <a href="/filter/?by=">TDS : highest to lowest</a>
-  <a href="/filter/?by=">TDS : lowest to highest</a>
-  <a href="/filter/?by=">Status : red only</a>
-  <a href="/filter/?by=">Status : green only</a>
+  <a <% if (typeof option !== 'undefined' && option == 1) { %>
+    id="popover-active"
+  <% } %>   href="/tdsdown">TDS : highest to lowest</a>
+  <a <% if (typeof option !== 'undefined' && option == 2) { %>
+    id="popover-active"
+  <% } %>href="/tdsup">TDS : lowest to highest</a>
+  <a <% if (typeof option !== 'undefined' && option == 3) { %>
+    id="popover-active"
+  <% } %>href="/redonly">Status : red only</a>
+  <a <% if (typeof option !== 'undefined' && option == 4) { %>
+    id="popover-active"
+  <% } %>href="/greenonly">Status : green only</a>
   <a href="#" class="myBtn">Date between</a>
+  <a href="/">Clear parameter</a>
 </div>

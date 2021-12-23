@@ -89,11 +89,10 @@ h4 {
 }
 
 .styled-table {
-  font-family: "Montserrat";
   /* border-collapse: collapse; */
   margin: 25px 0;
   font-size: 0.9em;
-  font-family: sans-serif;
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
@@ -167,7 +166,7 @@ nav:nth-child(4) ul .no-click {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 99999; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -189,7 +188,7 @@ nav:nth-child(4) ul .no-click {
   width: 50%; /* Could be more or less, depending on screen size */
 }
 .popover-header {
-  font-family: "Montserrat", sans-serif;
+  font-family: sans-serif;
 }
 .popover-body {
   padding: 0;
@@ -200,9 +199,12 @@ nav:nth-child(4) ul .no-click {
   text-decoration: none;
   color: black;
   display: block;
-  font-family: "Montserrat", sans-serif;
+  font-family: sans-serif;
+  transition: all 200ms ease-in;
 }
-
+#popover-active {
+  background-color: var(--second-color);
+}
 .popover-body a:hover {
   background-color: var(--second-color);
 }
