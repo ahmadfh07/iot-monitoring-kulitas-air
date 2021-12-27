@@ -73,9 +73,9 @@ app.get("/tdsdown", async (req, res) => {
     const numberOfPages = Math.ceil(numOfResults / perPage);
     let page = req.query.page ? Number(req.query.page) : 1;
     if (page > numberOfPages) {
-      res.redirect("/tdsup?page=" + encodeURIComponent(numberOfPages));
+      res.redirect("/tdsdown?page=" + encodeURIComponent(numberOfPages));
     } else if (page < 1) {
-      res.redirect("/tdsup?page=" + encodeURIComponent("1"));
+      res.redirect("/tdsdown?page=" + encodeURIComponent("1"));
     }
 
     Data.find({})
@@ -91,7 +91,7 @@ app.get("/tdsdown", async (req, res) => {
             datas,
             current: page,
             pages: Math.ceil(count / perPage),
-            option: 1,
+            option: "tdsdown",
           });
         });
       });
@@ -100,6 +100,7 @@ app.get("/tdsdown", async (req, res) => {
       title: "Home",
       layout: "layouts/main-layout",
       datas,
+      option: "tdsdown",
     });
   }
 });
@@ -130,7 +131,7 @@ app.get("/tdsup", async (req, res) => {
             datas,
             current: page,
             pages: Math.ceil(count / perPage),
-            option: 2,
+            option: "tdsup",
           });
         });
       });
@@ -139,27 +140,28 @@ app.get("/tdsup", async (req, res) => {
       title: "Home",
       layout: "layouts/main-layout",
       datas,
+      option: "tdsup",
     });
   }
 });
 
 app.get("/redonly", async (req, res) => {
   const perPage = 10;
-  const datas = await Data.find();
+  const datas = await Data.find({ tds: { $gt: 500 } });
   if (datas.length !== 0) {
     const numOfResults = await Data.countDocuments();
     const numberOfPages = Math.ceil(numOfResults / perPage);
     let page = req.query.page ? Number(req.query.page) : 1;
     if (page > numberOfPages) {
-      res.redirect("/tdsup?page=" + encodeURIComponent(numberOfPages));
+      res.redirect("/redonly?page=" + encodeURIComponent(numberOfPages));
     } else if (page < 1) {
-      res.redirect("/tdsup?page=" + encodeURIComponent("1"));
+      res.redirect("/redonly?page=" + encodeURIComponent("1"));
     }
 
     Data.find({ tds: { $gt: 500 } })
       .skip(perPage * page - perPage)
       .limit(perPage)
-      .sort({ tds: 1 })
+      .sort({ _id: -1 })
       .exec((err, datas) => {
         Data.countDocuments().exec((err, count) => {
           if (err) return next(err);
@@ -169,7 +171,7 @@ app.get("/redonly", async (req, res) => {
             datas,
             current: page,
             pages: Math.ceil(count / perPage),
-            option: 3,
+            option: "redonly",
           });
         });
       });
@@ -178,11 +180,55 @@ app.get("/redonly", async (req, res) => {
       title: "Home",
       layout: "layouts/main-layout",
       datas,
+      option: "redonly",
     });
   }
 });
+
 app.get("/greenonly", async (req, res) => {
   const perPage = 10;
+  const datas = await Data.find();
+  if (datas.length !== 0) {
+    const numOfResults = await Data.countDocuments();
+    const numberOfPages = Math.ceil(numOfResults / perPage);
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page > numberOfPages) {
+      res.redirect("/greenonly?page=" + encodeURIComponent(numberOfPages));
+    } else if (page < 1) {
+      res.redirect("/greenonly?page=" + encodeURIComponent("1"));
+    }
+
+    Data.find({ tds: { $lte: 500 } })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .sort({ _id: -1 })
+      .exec((err, datas) => {
+        Data.countDocuments().exec((err, count) => {
+          if (err) return next(err);
+          res.render("index", {
+            title: "Home",
+            layout: "layouts/main-layout",
+            datas,
+            current: page,
+            pages: Math.ceil(count / perPage),
+            option: "greenonly",
+          });
+        });
+      });
+  } else {
+    res.render("index", {
+      title: "Home",
+      layout: "layouts/main-layout",
+      datas,
+      option: "greenonly",
+    });
+  }
+});
+
+app.post("/datebetween", async (req, res) => {
+  const perPage = 10;
+  const dateOne = new Date(req.body.dateOne).toISOString();
+  const dateTwo = new Date(req.body.dateTwo).toISOString();
   const datas = await Data.find();
   if (datas.length !== 0) {
     const numOfResults = await Data.countDocuments();
@@ -194,10 +240,10 @@ app.get("/greenonly", async (req, res) => {
       res.redirect("/tdsup?page=" + encodeURIComponent("1"));
     }
 
-    Data.find({ tds: { $lte: 500 } })
+    Data.find({ createdAt: { $gte: dateOne, $lt: dateTwo } })
       .skip(perPage * page - perPage)
       .limit(perPage)
-      .sort({ tds: -1 })
+      .sort({ _id: -1 })
       .exec((err, datas) => {
         Data.countDocuments().exec((err, count) => {
           if (err) return next(err);

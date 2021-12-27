@@ -187,6 +187,18 @@ nav:nth-child(4) ul .no-click {
   border: 1px solid #888;
   width: 50%; /* Could be more or less, depending on screen size */
 }
+
+.modal-content button {
+  background-color: var(--second-color);
+  color: black;
+  font-family: "Kanit", sans-serif;
+  transition: all 200ms ease-in-out;
+}
+
+.modal-content button:hover {
+  background-color: var(--main-color);
+  color: white;
+}
 .popover-header {
   font-family: sans-serif;
 }
