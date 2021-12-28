@@ -234,7 +234,9 @@ nav:nth-child(4) ul .no-click {
   text-decoration: none;
   cursor: pointer;
 }
-
+.row .mt-3 {
+  text-align: justify;
+}
 /* mobile */
 @media (max-width: 600px) {
   .navbar {

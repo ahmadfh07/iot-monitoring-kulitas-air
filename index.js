@@ -253,7 +253,7 @@ app.post("/datebetween", async (req, res) => {
             datas,
             current: page,
             pages: Math.ceil(count / perPage),
-            option: 4,
+            option: "datebetween",
           });
         });
       });
@@ -262,6 +262,7 @@ app.post("/datebetween", async (req, res) => {
       title: "Home",
       layout: "layouts/main-layout",
       datas,
+      option: "datebetween",
     });
   }
 });

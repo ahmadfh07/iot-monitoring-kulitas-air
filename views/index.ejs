@@ -92,6 +92,8 @@
   <a <% if (typeof option !== 'undefined' && option == "greenonly") { %>
     id="popover-active"
   <% } %>href="/greenonly">Status : green only</a>
-  <a href="#" class="myBtn">Date between</a>
+  <a <% if (typeof option !== 'undefined' && option == "datebetween") { %>
+    id="popover-active"
+  <% } %>href="#" class="myBtn">Date between</a>
   <a href="/">Clear parameter</a>
 </div>
