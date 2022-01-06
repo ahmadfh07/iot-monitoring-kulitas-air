@@ -5,14 +5,30 @@ const expressLayouts = require("express-ejs-layouts");
 const timeout = require("connect-timeout");
 const bodyParser = require("body-parser");
 
-const app = express();
 const port = 3000;
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  /* options */
+});
 
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(timeout("5s"));
+
+//socket.io
+io.on("connection", function (socket) {
+  console.log(socket.id);
+
+  socket.on("disconnect", (reason) => {
+    console.log(reason);
+  });
+});
 
 app.get("/", async (req, res, next) => {
   const perPage = 10;
@@ -56,6 +72,12 @@ app.post("/input", (req, res) => {
   Data.insertMany(req.body, (error, result) => {
     res.redirect("/");
   });
+});
+
+//changestream diletakkan setelah input agar bisa terus memantau
+//pipeline : [{ $match: { operationType: { $in: ["insert"] } } }]
+Data.watch().on("change", (data) => {
+  io.emit("changes", data.fullDocument);
 });
 
 app.get("/about", (req, res) => {
@@ -272,6 +294,6 @@ app.use((req, res) => {
   res.send("<h1>404</h1>");
 });
 
-app.listen(process.env.PORT || 3000, function () {
+httpServer.listen(process.env.PORT || 3000, function () {
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
