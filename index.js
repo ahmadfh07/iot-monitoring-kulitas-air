@@ -24,6 +24,9 @@ app.use(timeout("5s"));
 //socket.io
 io.on("connection", function (socket) {
   console.log(socket.id);
+  Data.watch().on("change", (data) => {
+    io.emit("changes", data.fullDocument);
+  });
 
   socket.on("disconnect", (reason) => {
     console.log(reason);
@@ -76,9 +79,6 @@ app.post("/input", (req, res) => {
 
 //changestream diletakkan setelah input agar bisa terus memantau
 //pipeline : [{ $match: { operationType: { $in: ["insert"] } } }]
-Data.watch().on("change", (data) => {
-  io.emit("changes", data.fullDocument);
-});
 
 app.get("/about", (req, res) => {
   res.render("about", {
@@ -192,7 +192,7 @@ app.get("/redonly", async (req, res) => {
             layout: "layouts/main-layout",
             datas,
             current: page,
-            pages: Math.ceil(count / perPage),
+            pages: Math.ceil(datas.length / perPage),
             option: "redonly",
           });
         });
@@ -232,7 +232,7 @@ app.get("/greenonly", async (req, res) => {
             layout: "layouts/main-layout",
             datas,
             current: page,
-            pages: Math.ceil(count / perPage),
+            pages: Math.ceil(datas.length / perPage),
             option: "greenonly",
           });
         });
@@ -274,7 +274,7 @@ app.post("/datebetween", async (req, res) => {
             layout: "layouts/main-layout",
             datas,
             current: page,
-            pages: Math.ceil(count / perPage),
+            pages: Math.ceil(datas.length / perPage),
             option: "datebetween",
           });
         });
