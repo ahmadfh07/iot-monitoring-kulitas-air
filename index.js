@@ -19,14 +19,11 @@ app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-app.use(timeout("5s"));
+app.use(timeout("30s"));
 
 //socket.io
 io.on("connection", function (socket) {
   console.log(socket.id);
-  Data.watch().on("change", (data) => {
-    io.emit("changes", data.fullDocument);
-  });
 
   socket.on("disconnect", (reason) => {
     console.log(reason);
@@ -79,6 +76,9 @@ app.post("/input", (req, res) => {
 
 //changestream diletakkan setelah input agar bisa terus memantau
 //pipeline : [{ $match: { operationType: { $in: ["insert"] } } }]
+Data.watch().on("change", (data) => {
+  io.emit("changes", data.fullDocument);
+});
 
 app.get("/about", (req, res) => {
   res.render("about", {
