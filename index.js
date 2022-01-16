@@ -70,11 +70,10 @@ app.get("/", async (req, res, next) => {
 
 app.post("/input", (req, res) => {
   Data.insertMany(req.body, (error, result) => {
-    res.redirect("/");
+    res.send("success");
   });
 });
 
-//changestream diletakkan setelah input agar bisa terus memantau
 //pipeline : [{ $match: { operationType: { $in: ["insert"] } } }]
 Data.watch().on("change", (data) => {
   io.emit("changes", data.fullDocument);
@@ -185,17 +184,20 @@ app.get("/redonly", async (req, res) => {
       .limit(perPage)
       .sort({ _id: -1 })
       .exec((err, datas) => {
-        Data.countDocuments().exec((err, count) => {
-          if (err) return next(err);
-          res.render("index", {
-            title: "Home",
-            layout: "layouts/main-layout",
-            datas,
-            current: page,
-            pages: Math.ceil(datas.length / perPage),
-            option: "redonly",
+        Data.find({ tds: { $gt: 500 } })
+          .countDocuments()
+          .exec((err, count) => {
+            if (err) return next(err);
+            res.render("index", {
+              title: "Home",
+              layout: "layouts/main-layout",
+              datas,
+              current: page,
+              pages: Math.ceil(count / perPage),
+              option: "redonly",
+            });
+            console.log(Data.find({ tds: { $gt: 500 } }).countDocuments());
           });
-        });
       });
   } else {
     res.render("index", {
@@ -225,17 +227,19 @@ app.get("/greenonly", async (req, res) => {
       .limit(perPage)
       .sort({ _id: -1 })
       .exec((err, datas) => {
-        Data.countDocuments().exec((err, count) => {
-          if (err) return next(err);
-          res.render("index", {
-            title: "Home",
-            layout: "layouts/main-layout",
-            datas,
-            current: page,
-            pages: Math.ceil(datas.length / perPage),
-            option: "greenonly",
+        Data.find({ tds: { $lte: 500 } })
+          .countDocuments()
+          .exec((err, count) => {
+            if (err) return next(err);
+            res.render("index", {
+              title: "Home",
+              layout: "layouts/main-layout",
+              datas,
+              current: page,
+              pages: Math.ceil(count / perPage),
+              option: "greenonly",
+            });
           });
-        });
       });
   } else {
     res.render("index", {
