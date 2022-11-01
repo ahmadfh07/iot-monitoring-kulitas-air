@@ -293,6 +293,8 @@ app.post("/datebetween", async (req, res) => {
   }
 });
 
+console.log(process.env.NODE_ENV);
+
 app.use((req, res) => {
   res.status(404);
   res.send("<h1>404</h1>");
