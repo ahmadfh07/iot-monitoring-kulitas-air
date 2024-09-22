@@ -5,7 +5,7 @@ const expressLayouts = require("express-ejs-layouts");
 const timeout = require("connect-timeout");
 const bodyParser = require("body-parser");
 
-const port = 3000;
+const port = 4000;
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 
